@@ -1,0 +1,941 @@
+\documentclass[12pt]{extarticle}
+%Some packages I commonly use.
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{framed}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{enumerate}
+\usepackage[utf8]{inputenc}
+\usepackage[top=1 in,bottom=1in, left=1 in, right=1 in]{geometry}
+
+%A bunch of definitions that make my life easier
+\newcommand{\matlab}{{\sc Matlab} }
+\newcommand{\cvec}[1]{{\mathbf #1}}
+\newcommand{\rvec}[1]{\vec{\mathbf #1}}
+
+\newcommand{\ihat}{\hat{\textbf{\i}}}
+\newcommand{\jhat}{\hat{\textbf{\j}}}
+\newcommand{\khat}{\hat{\textbf{k}}}
+\newcommand{\minor}{{\rm minor}}
+\newcommand{\trace}{{\rm trace}}
+\newcommand{\spn}{{\rm Span}}
+\newcommand{\rem}{{\rm rem}}
+\newcommand{\ran}{{\rm range}}
+\newcommand{\range}{{\rm range}}
+\newcommand{\mdiv}{{\rm div}}
+\newcommand{\proj}{{\rm proj}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\g}{\mathfrak{g}}
+\newcommand{\h}{\mathfrak{h}}
+\newcommand{\gl}{\mathfrak{g}\mathfrak{l}}
+\newcommand{\<}{\langle}
+\renewcommand{\>}{\rangle}
+\renewcommand{\emptyset}{\varnothing}
+\newcommand{\attn}[1]{\textbf{#1}}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem*{definition}{Definition}
+\newtheorem*{example}{Example}
+\newtheorem*{note}{Note}
+\newtheorem{exercise}{Exercise}
+\newcommand{\bproof}{\bigskip {\bf Proof. }}
+\newcommand{\eproof}{\hfill\qedsymbol}
+\newcommand{\Disp}{\displaystyle}
+\newcommand{\qe}{\hfill\(\bigtriangledown\)}
+\setlength{\columnseprule}{1 pt}
+
+
+\title{La presencia de Lie en la geometria diferencial}
+\author{Alberto Centelles}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Variedades diferenciables}
+Las variedades diferenciables son espacios que "localmente se parecen" a un espacio
+euclídeo $\mathbb{R}^n$ y sobre el que uno puede aplicar conceptos del analisis matematico.
+Las variedades mas simples son las variedades topológicas, que son
+espacios topologicos con ciertas propiedades que expresan con exactitud lo que
+refererimos como "localmente se parecen" a $\mathbb{R}^n$.
+La nocion de "suave" es intuitiva cuando nos referimos a variedades que son
+subconjuntos de $\mathbb{R}^n$. Por ejemplo, llamamos a una curva "suave" si es
+posible definir una recta tangente que varia de punto a punto de forma continua
+y llamamos a una superficie "suave" si existe un plano tangente que tambien
+varia de forma continua.
+Para variedades diferenciables mas complejas resulta innecesario embeberlas como
+subconjuntos de un espacio euclideo ambiente. Por esa razon, es necesario pensar
+en variedades diferenciables como espacios topologicos abstractos sin la necesidad de
+que sean subconjuntos de espacios mas grandes.
+No es dificil ver que no hay forma de definir una propiedad puramente topologica
+que nos sirva como criterio de "suavidad" porque esta propiedad no puede ser
+invariantes bajo homeomorfismos. Por ejemplo, un cuadrado y un circulo en el
+plano son espacios topologicos homeomorfos pero el circulo es "suave" mientras
+que el cuadrado no lo es. Por tanto, las variedades topologicas no son
+suficientes; debemos pensar en una variedad diferenciable como un conjunto con dos
+estructuras adicionales: una topologia y una estructura suave.
+
+\subsection{Estructura topologica}
+Dado un espacio topologico $M$, decimos que $M$ es una variedad topologica de
+dimension $n$ si tiene las siguientes propiedades:
+
+- $M$ es un espacio de Hausdorff: para cada par de puntos distintos $p, q \in M$
+existen conjuntos abiertos disjuntos $U, V \subseteq M$ tales que $p \in U$ y
+$q \in V$
+- $M$ es segundo contable: existe una base contable para la topologia de $M$.
+- $M$ es localmente euclideo de dimension $n$: cada punto de $M$ tiene un
+entorno que es homeomorfico a un conjunto abierto de $\mathbb{R}^n$.
+
+% * La cohomologia de De Rham: La dimension de una variedad topologica no vacia es una
+% invariante topologica.
+
+Como ejemplo de una variedad topologica podemos tomar un $n$-toro para $n$
+positivo, es decir, el espacio producto $\mathbb{T}^n = \mathbb{S}^1 \times ...
+\times \mathbb{S}^1$. Sabemos que toda $n$-esfera, incluida la circunferencia
+$\mathbb{S}^1$, es una variedad topologica. Es un espacio de Hausdorff pues
+cualquier producto finito de espacios de Hausdorff es un espacio de Hausdorff.
+De la misma forma deducimos que es un espacio segundo contable. Veamos que es
+localmente euclideo: para todo punto $(p_1, ..., p_k) \in \mathbb{S}^1 \times
+... \times \mathbb{S}^1$, podemos elegir una carta de coordenadas ($U_i,
+\varphi_i$) para cada $\mathbb{S}^1$ con $p_i \in U_i$. La aplicacion producto
+$\varphi_1 \times ... \times \varphi_k : U_1 \times ... \times U_k \rightarrow
+\mathbb{R}^{n_1 + ... +n_k}$
+es un homeomorfismo sobre su imagen, que es un conjunto abierto de
+$\mathbb{R}^{n_1 + ... + n_k}$. Por tanto, el $n$-torus $\mathbb{T}^n$ es una
+variedad topologica.
+
+\subsection{Estructura suave}
+Con la estructura topologica expuesta en el apartado anterior, se pueden
+estudiar propiedades topologicas de las variedades como la compacidad,
+conectividad y cualquier problema de clasificacion de variedades topologicamente
+equivalentes. Sin embargo, la teoria de las variedades topologicas no hace
+mencion del analisis matematico. Esto se debe a que las derivadas de funciones
+sobre variedades no son invariantes bajo homeomorfismo.
+
+Para dar sentido a las derivadas de aplicaciones entre variedades es necesario
+tratar con variedades diferenciables. Dados $U \subset \R^n$ y $V \subset \R^m$,
+una funcion $F: U \rightarrow V$ se dice que que es suave ($C^{\infty}$ o
+infinitamente diferenciable) si cada una de sus funciones componente tiene
+derivadas parciales continuas de todo orden. Si ademas $F$ es biyectiva y tiene
+una aplicacion inversa suave, se le llama difeomorfismo. Un difeomorfismo es, en
+particular, un homeomorfismo.
+
+El reto es ver como podemos extender la estructura de una variedad topologica
+para discernir que aplicaciones son diferenciables ($C^{\infty}$). Dada una
+$n$-variedad topologica $M$, cada punto $p \in M$ es el dominio de una aplicacion
+$\varphi: U \rightarrow V \subseteq \R$. Podemos decir que $f : M \rightarrow \R$ es diferenciable
+si y solo si la composicion $f \circ \varphi^{-1}: V \rightarrow \R$ es suave en
+el sentido ordinario del calculo. Sin embargo, esta definicion solo tiene
+sentido si esta propiedad es independiente de la eleccion de la carta. Para
+garantizar esta independencia, debemos de hablar de "cartas suaves" y considerar
+la coleccion de todas las cartas suaves como una estructura adicional sobre $M$.
+
+Si $(U, \varphi)$, $(V, \psi)$ son dos cartas tales que $U \cap V \neq
+\emptyset$, a la composicion $\psi \circ \varphi^{-1}: \varphi(U \cap V)
+\rightarrow \psi(U \cap V)$ se le denomina funcion de transicion de $\varphi$ a
+$\psi$. Dos cartas $(U, \varphi)$ y $(V, \psi)$ son (diferenciablemente)
+compatibles si la funcion de transicion $\psi \circ \varphi^{-1}$ es un
+difeomorfismo o $U \cap V = \emptyset$.
+
+Un atlas de $M$ es una coleccion de cartas cuyos dominios cubren $M$. Un atlas $A$
+es suave si dos cartas cualesquiera en $A$ son diferenciablemente compatibles.
+Dado que, en general, existen varios atlas que proporcionan la misma
+estructura diferenciable, se elige por conveniencia el atlas maximal.
+
+\subsection{Variedades diferenciables}
+Si $M$ es una variedad topologica, una estructura suave sobre $M$ es una atlas
+maximal suave. Una variedad diferenciable es un par $(M, A)$.
+
+El espacio de matrices sirve como ejemplo de variedad diferenciable.
+Sea $M(m \times n, \R)$ el conjunto de matrices $m \times n$ de componentes
+reales. Debido a que es un espacio vectorial real de dimension $mn$ bajo la
+adicion de matrices y multiplicacion por escalares, $M(n \times n, \R)$ es una
+variedad $mn$-diferenciable. De la misma forma, el espacio $M(m \times n, \C)$
+de $m \times n$ matrices complejas es un espacio vectorial de dimension $2mn$
+sobre $\R$ y, por tanto, una variedad $2mn$-dimensional.
+
+El ejemplo del espacio de matrices ira apareciendo en cada una de las siguientes
+secciones para ilustrar los distintos conceptos de Lie.
+
+\section{Grupos de Lie}
+Estamos ahora en disposicion de entender los grupos de Lie. Un grupo de Lie es
+una variedad diferenciable $G$ (sin frontera) que es tambien un grupo en el
+sentido algebraico, con la propiedad que la aplicacion multiplicacion $m : G
+\times G \rightarrow G$ y la aplicacion inversion $i : G \rightarrow G$, dadas
+por $m(g, h)=gh$ y $i(g) = g^{-1}$ son ambas suaves. Un grupo de Lie es, en
+particular, un grupo topologico (esto es, un espacio topologico con una
+estructura de grupo tal que las aplicaciones multiplicacion e inversion son
+continuas).
+
+Destacan dos aplicaciones sobre los grupos de Lie: la traslacion por la
+izquierda $L_g(h) = gh$ y la traslacion por la derecha $R_g(h)=hg$, donde $G$ es
+un grupo de Lie y $g, h \in G$.
+
+Un ejemplo de grupo de Lie es el grupo general lineal $GL(n, \R)$ definido como
+el conjunto de matrices $n \times n$ invertibles con componentes reales. Se
+trata de un grupo bajo la multiplicacion de matrices y es un subgrupo del
+espacio vectorial $M(n, \R)$, mostrado en el ejemplo anterior. La multiplicacion
+es suave porque las componentes de la matriz producto $AB$ son polinomios en las
+entradas de $A$ y $B$. La inversion es suave por la regla de Cramer.
+
+\subsection{Homomorfismos de grupos de Lie}
+Si $G$ y $H$ son grupos de Lie, definimos homomorfismo de grupos de Lie de $G$ a
+$H$ como una aplicacion suave $F: G \rightarrow H$ que es tambien un
+homomorfismo de grupos. Se dice que es isomorfismo de grupos de Lie si es
+tambien un difeomorfismo, lo que implica que tiene una inversa que es tambien un
+homomorfismo de grupos de Lie. En este caso decimos que $G$ y $H$ son grupos de
+Lie isomorficos.
+
+Un ejemplo de homomorfismo de grupos de Lie es el de la funcion determinante
+$det: GL(n,\R) \rightarrow \R^*$. Es una aplicacion suave porque $det A$ es un
+polinomio en las entradas de las matrices de $A$. Es un homomorfismo de grupos
+de Lie porque $det(AB) = (det A)(det B)$. De la misma forma, $det: GL(n, \C)
+\rightarrow \C^*$ es un homomorfismo de grupos de Lie.
+
+\section{Subgrupos de Lie}
+Para entender los subgrupos de Lie es necesario estudiar con especial atencion
+cierto tipo de aplicaciones diferenciales: aquellas cuyas diferenciales tienen
+rango constante.
+
+\subsection{La diferencial de una aplicacion}
+Para relacionar los espacios tangentes abstractos definidos en variedades con
+espacios tangentes geometricos en $\R^n$, debemos explorar la forma en la que
+las aplicaciones diferenciales modifican los vectores tangentes. En el caso de
+una aplicacion diferenciable entre espacios euclideos, la derivada total de una
+aplicacion en un punto (representada por su matriz jacobiana) es una aplicacion
+lineal que representa "la mejor aproximacion" de una aplicacion en el entorno de
+un punto. En el caso de las variedades diferenciales, no tiene sentido hablar de
+una aplicacion lineal entre
+variedades diferenciales. En su lugar, tiene sentido hablar de una aplicacion
+lineal entre espacios tangentes.
+
+Si $M$ y $N$ son variedades diferenciales y $F: M \rightarrow N$ es una
+aplicacion diferenciable, para cada $p \in M$ decimos que la diferencial de $F$ en
+$p$ es una aplicacion $dF_p:T_pM \rightarrow T_{F(p)N}$ definida como
+$dF_p(v)(f) = v(f \circ F)$, donde $v \in T_pM$ y $dF_p(v)$ es la derivada en
+$F(p)$ que actua sobre $f \in C^{\infty}$.
+
+\subsection{Inmersiones, encajes y sumersiones}
+El rango es la unica propiedad de la diferencial que puede ser definida
+con independencia de la eleccion de las bases. Dada una aplicacion diferenciable
+$F:M \rightarrow N$ y un punto $p \in M$, el rango de $F$ en $p$ se define como
+el rango de la aplicacion lineal $dF_p:T_pM \rightarrow T_{F(p)N}$, esto es, la
+dimension de $Im (dF_p) \subseteq T_{F_p}N$. Si $F$ tiene el mismo rango en cada
+punto se dice que tiene rango constante.
+
+El valor del rango de una aplicacion lineal nunca puede ser mayor que la
+dimension del dominio o el codominio, luego esta acotado. Si el rango de la
+diferencial $dF_p$ es igual a su cota superior, se dice que $F$ tiene rango
+completo en $p$. Si $F$ tiene rango completo en todo punto de $M$, entonces
+$F$ tiene rango completo.
+
+Las aplicaciones de rango constante mas importante son las de rango completo.
+Una aplicacion diferenciable $F: M \rightarrow N$ se dice que es una sumersion
+suave si su diferencial es sobreyectiva en cada punto (o equivalentemente, si
+si el rango de $F$ es igual $dim N$). Se dice que es una inmersion suave si su
+diferencial es inyectiva en cada punto (equivalentemente, $rango F = dim M$).
+
+De todas las inmersiones, los encajes son de particular importancia. Un encaje
+suave es una inmersion suave que ademas es un encaje topologico, esto es, un
+homeomorfismo sobre sus imagenes $F(M) \subseteq N$ en la topologia inducida. Se
+trata de una aplicacion que es a la vez un encaje topologico y una inmersion
+suave.
+
+Existen varias proposiciones y teoremas que analizan las propiedades de las
+aplicaciones suaves entre variedades diferenciables, entre ellos el teorema de
+la funcion inversa para variedades diferenciables o su corolario, el teorema del
+rango constante.
+Ponemos a continuacion una de estas proposiciones como ilustracion:
+
+Sea $F: M \rightarrow N$ una aplicacion suave y $p \in M$. Si $dF_p$ es
+sobreyectiva, entonces $p$ tiene un entorno $U$ tal que $F\mid_U$ es una
+sumersion. Si $dF_p$ es inyectiva, entonces $p$ tiene un entorno $U$ tal que
+$F\mid_U$ es una inmersion.
+
+Estas juegan un papel destacado en la teoria de las variedades diferenciales y,
+como veremos, en los subgrupos de Lie. Como ejemplo de sumersion destacamos la
+proyeccion $\pi : TM \rightarrow M$, donde $M$ es una variedad diferencial y
+$TM$ su fibrado tangente. Para verificar que es una sumersion, basta ver que con
+respecto a cualquier sistema de coordenadas local $(x^i)$ en un abierto $U
+\subseteq M$ y las correspondientes coordenadas naturales $(x^i, v^i)$ en
+$\pi^{-1}(U) \subseteq TM$, la representacion de las coordenads de $\pi$ es
+$\pi(x, v) = x$.
+
+Un ejemplo de inmersion suave de $\R^2$ en $\R^3$ es el dado por la aplicacion
+suave $X: \R^2 \rightarrow \R^3$, $X(u, v) = ((2 + cos2 \pi u) cos2\pi v, (2 +
+cos2\pi u)sen2\pi v, sen2\pi u)$, cuya imagen es un toro de revolucion en $\R^3$
+obtenido a partir del circulo $(y - 2)^2 + z^2 = 1$. Otro ejemplo destacado de
+inmersion es el de una curva suave $\gamma : J \rightarrow M$: se dice que
+$\gamma$ es una inmersion suave si y solo si $\gamma'(t) \neq 0$ para todo $t
+\in J$.
+
+Un ejemplo ilustrativo de encaje suave es el de la aplicacion inclusion $X: U
+\rightarrow M$, donde $U$ es una subvariedad abierta de una variedad diferencial
+$M$. Otro ejemplo de encaje suave es el dado por cada uno de las aplicaciones
+$\iota_j : M_j \rightarrow M_1 \times ... \times M_k$, $\iota_j(q) = (p_1, ...,,
+p_{j-1}, q, p_{p+1},..., p_k)$. En particular, la aplicacion inclusion de $\R^n$
+a $\R^{n+k}$ que manda $(x_1,..., x^n)$ a  $(x^1, ..., x^n, 0,..., 0)$ es un
+encaje suave.
+
+
+Otro ejemplo caracteristico que ilustra la diferencia entre encaje e inmersion
+es el de la lemniscata de Bernoulli. Esta es la
+curva en $\R^2$ cuya trayectoria obedece la ecuacion polinomial de cuarto
+grado:$(x^2+y^2)^2 = 2a^2(x^2-y^2)$,donde $a>0$ es un parametro. Esta curva se puede
+parametrizar por las funciones $x(t):=\dfrac{a\sqrt{2} cos(t)}{1+sen^2t}$,
+$y(t) = \dfrac{a\sqrt{2}cost(t) sen(t)}{1+sen^2(t)}$,
+En otras palabras, la curva $\gamma: \R \rightarrow \R^2$ dada por $\gamma(t) =
+(x(t),y(t))$ recorre la trayectoria dada (infinitas veces); para obtener un solo
+recorrido hay que restringir $\gamma$ a un intervalo de longitud $2\pi$, por
+ejemplo $[0, 2\pi)$. Esta parametrizacion es regular porque $\gamma'(t) \neq (0,
+0)$
+para todo $t \in \R$. Entonces el vector tangente $\gamma_*(t): v \rightarrow
+\gamma'(t)v$ no se anula en el punto $\gamma(t)$ de la curva. Luego cada
+$\gamma_*(t)$ es inyectiva, asi que $\gamma$ es una inmersion de $\R$ en
+$\R^2$. Sin embargo, la curva $\gamma$ no es un encaje. Aun cuando se considera
+la restriccion de $\gamma$ a una funcion suave del intervalo abierto $(0, 2\pi)$
+al abierto $\R^2/(a\sqrt{2}, 0)$ en el plano, esta tampoco es un
+encaje porque no es inyectiva, como evidencia el punto doble $(0,
+0)=\gamma(\pi/2)=\gamma(3\pi/2)$.
+
+Como contraejemplo, la aplicacion diferencial $\gamma : \R \rightarrow \R^2$ dada por
+$\gamma(t) = (t^3, 0)$ es una aplicacion diferencial y una encaje topologico,
+pero no es un encaje suave porque $\gamma'(0)=0$.
+
+Los encajes diferenciales dan lugar a las subvariedades encajadas en una
+variedad diferencial $M$. Una subvariedad encajada en $M$ es un subconjunto $S
+\subseteq M$ que es una variedad en la topologia inducida, dotado de una
+estructura diferencial respecto a la cual la aplicacion inclusion $S \rightarrow
+M$ es un encaje suave.
+
+\subsection{Subgrupos de Lie}
+
+Dado un grupo de Lie $G$, $H \subseteq G$ es un subgrupo de Lie de
+$G$ si es un subgrupo de $G$ y esta dotado de una topologia y una estructura
+suave que lo convierten en un grupo de Lie y en una subvariedad diferencial
+inmersa en $G$. Todo subgrupo que ademas es una subvariedad encajada
+en $G$ es automaticamente un subgrupo de Lie. El reciproco no es siempre cierto.
+Por ejemplo, sea $H \subseteq \T^2$ una subvariedad densa del toro que es imagen
+de la inmersion $\gamma : \R \rightarrow \T^2$ definida por $\gamma(t)=(e^{2 \pi
+it}, e^{e \pi i \alpha t})$. Es una inmersion suave porque $\gamma'(t)$ nunca se
+anula. Tambien es inyectiva, pues $\gamma(t_1) = \gamma(t_2)$ implica que ambos
+$t_1 - t_2$ y $\alpha t_1 - \alpha t_2$ son enteros, lo cual es imposible. Es
+facil ver que $\gamma$ es un homomorfismo de grupos inyectivo y, por tanto, $H$
+es un subgrupo de Lie inmerso en $\T^2$.
+
+Siguiendo la linea de ejemplos sobre matrices, el grupo especial lineal $SL(n,
+\R)$ de $n \times n$ matrices reales con determinante igual a 1 es un ejemplo de
+subgrupo de Lie de $GL(n, \R)$, ya que $SL(n, \R)$ es el
+nucleo del homomorfismo de grupos de Lie $det: GL(n, \R) \rightarrow \R^*$ y
+$det$ es una funcion sobreyectiva, luego es una sumersion suave por el teorema
+del rango global. La dimension de $SL(n, \R)$ es $n^2 - 1$.
+
+\section{Algebra de Lie}
+\subsection{Campos vectoriales}
+Para entender el algebra de Lie es necesario familiarizarse con el concepto de
+campo vectorial. En el espacio euclideo $\R^n$ puede visualizarse poniendo una
+"flecha" en cada punto de un abierto $U \subseteq \R^n$. Esta visualizacion no
+es tan util cuando extendemos el concepto a una variedad diferencial abstracta.
+Debemos pensar en un campo vectorial en una variedad diferencial $M$
+como una aplicacion continua de $M$ a su fibrado tangente $TM$, es decir, una
+aplicacion que asigna a cada punto $p \in M$ su vector tangente $X_p \in T_pM$.
+Formalmente, es una seccion de la aplicacion $\pi: TM \rightarrow M$, esto es,
+una aplicacion $X: M \rightarrow TM$ con la propiedad $\pi \circ X = Id_M$, o
+equivalentemente, $X_p \in T_pM$ para cada $p \in M$.
+
+Una de las propiedades mas importantes de los campos vectoriales es que definen
+operadores en el espacio de las funciones reales suaves. Si $X \in
+\mathfrak{X}(M)$ y $f$ es una funcion real suave definida en un abierto $U \in
+M$, obtenemos una nueva funcion $Xf : U \rightarrow \R$, definida por $(Xf)(p) =
+X_p f$. Dado que la accion de un vector tangente en una funcion esta determinada
+por los valores de una funcion un entorno arbitrariamente pequeño, se sigue que
+$Xf$ esta localmente determinado. En particular, para todo abierto $V \subseteq
+U$, $(Xf)|_V = X (f|_V)$.
+
+No todos los campos vectoriales son suaves (ni continuos), pero nosotros nos
+centramos en los campos vectoriales suaves. Un campo vectorial suave $X \in
+\mathfrak{X}(M)$ define una aplicacion de $C^{\infty}$ a si misma, que es lineal
+sobre $\R$. Ademas, podemos trasladar la regla del producto de vectores tangente
+a la regla del producto de campos vectoriales $X(fg) = f Xg + gXf$. En general,
+una aplicacion de este tipo, $C^{\infty}(M) \rightarrow C^{\infty}(M)$ se
+llama derivacion si es lineal sobre $\R$ y satisface $X(fg) = f Xg + gXf$ para
+todo $f, g \in C^\infty$. Por tanto, las derivaciones en $C^\infty$ se pueden
+identificar con los campos vectoriales suaves.
+
+Si $F:M\rightarrow N$ es una aplicacion diferencial y $X$ es un campo vectorial
+en $M$, entonces para cada punto $p \in M$, obtenemos un vector $dF_p(X_p) \in
+T_{F(p)}N$ evaluando la diferencial de $F$ sobre $X_p$. Sin embargo, esto en
+general no define un campo vectorial en $N$. Por ejemplo, si $F$ no es
+sobreyectiva, no hay forma de decidir que vector asignar a un punto $q \in N$
+tal que $q \neq F(M)$. Si $F$ no es inyectiva, para algunos puntos de $N$ habra
+varios vectores obtenidos al evaluar $dF$ sobre $X$ en diferentes puntos de $M$.
+
+Cuando $dF(X)$ representa un campo vectorial $Y$ sobre $N$, decimos que $X$ e
+$Y$ estan $F$-relacionados si y solo si para toda funcion real suave $f$
+definida en un abierto de $N$, $X(f \circ F) = (Yf) \circ F$. Por ejemplo, dada la
+aplicacion suave de $\R$ a $\R^2$ dada por $F(t) = (\cos t, \sin t)$, los campos
+vectoriales $d/dt \in \mathfrak{X}(\R)$ e $Y \in \mathfrak{X}(\R^2)$ definido
+por $Y=x\dfrac{\partial}{\partial y} - y\dfrac{\partial}{\partial x}$ estan
+$F$-relacionados.
+
+A veces no existe ningun campo vectorial en $N$ que esta $F$-relacionado con un
+campo vectorial $X  \in \mathfrak{X}(M)$, dada una aplicacion $F : M \rightarrow
+N$. Pero cuando $F$ es un difeomorfismo, se tiene que existe un campo vectorial
+suave en $N$ y que ademas es unico. Este campo vectorial suave y unico se llama
+\emph{pushforward} de $X$ por $F$ y se puede definir explicitamente por la formula
+$(F_*X)_q = dF_{F^{-1}(q)}(X_{F^{-1}(q)})$. Ademas, si $F$ es un difeomorfismo,
+podemos reescribir la $F$-relacion de dos campos vectoriales del parrafo
+anterior por $((F_*X)f) \circ F = X(f \circ F)$.
+
+El siguiente ejemplo muestra como calcular el \emph{pushforward} de un campo
+vectorial: Sean $M = \{(x, y): y>0, x+y > 0\}$ y $N = \{(u, v): u>0, v>0\}$ dos
+variedades diferenciales. Definimos $F: M \rightarrow N$ como $F(x, y) =
+(x+y,x/y + 1)$, que es un difeomorfismo cuya inversa $F^{-1}(u,v)=(u-u/v, u/v)$
+es tambien continua para $v>0$. El campo vectorial dado $X \in \mathfrak{X}(M)$
+es $X_{(x,y)} = y^2 \dfrac{\partial}{\partial x} |_{(x, y)}$. La diferencial de
+$F$ en el punto $(x,y) \in M$ se representa por su matriz jacobiana
+\begin{equation*}
+	DF(x,y) = \begin{pmatrix}
+		1 & 1 \\
+		\dfrac{1}{y} & -\dfrac{x}{y^2}
+	\end{pmatrix}
+\end{equation*}
+luego $dF_{F^{-1}(u,v)}$ se representa por la matriz
+\begin{equation*}
+	DF(u-\dfrac{u}{v},\dfrac{u}{v}) = \begin{pmatrix}
+		1 & 1 \\
+		\dfrac{v}{u} & -\dfrac{v - v^2}{u}
+	\end{pmatrix}
+\end{equation*}
+para todo $(u, v) \in N$, $X_{F^{-1}(u, v)} =
+\dfrac{u^2}{v^2}\dfrac{\partial}{\partial x}|_{F^{-1}(u,v)}$ y aplicando la
+formula $(F_*X)_q = dF_{F^{-1}(q)}(X_{F^{-1}(q)})$ con $q=(u,v)$ tenemos que
+$(F_*X)(u,v) = \dfrac{u^2}{v^2}\dfrac{\partial}{\partial u}|_{(u, v)} +
+\dfrac{u}{v}\dfrac{\partial}{\partial v}|_{(u,v)}$.
+
+\subsection{Corchete de Lie}
+No todas las combinaciones de campos vectoriales dan lugar a otro campo
+vectorial. Uno podria pensar que dados dos campos vectoriales $X$ e
+$Y$ en una variedad diferencial $M$ y dada una funcion $f: M \rightarrow \R$, la
+funcion $YXf=Y(Xf)$ es un campo vectorial. Sin embargo, la operacion $f \mapsto
+YXf$ no satisface en general la regla del producto y, por tanto, no puede ser un
+campo vectorial. Por ejemplo, sean los campos vectoriales $X = \partial / \partial x$
+e $Y = x \partial / \partial y$ en $\R^2$ y $f(x, y)=x, g(x, y)=y$. Entonces
+$XY(fg) = 2x$ mientras que $fXYg + gXYf = x$, por lo que $XY$ no es una
+derivacion en $C^{\infty}(\R^2)$.
+El corchete de Lie, $[X, Y]: C^{\infty}(M) \rightarrow C^{\infty}(M)$, es una
+manera especial de combinar dos campos vectoriales suaves para dar lugar a un campo
+vectorial tambien suave. Esta definido por:
+\begin{equation*}
+[X, Y]f = XYf - YXf
+\end{equation*}
+
+El valor del campo vectorial $[X, Y]$ en un punto $p \in M$ es la derivacion de
+$p$ dada por la formula $[X, Y]_p f = X_p(Yf) - Y_p(Xf)$. Desafortunadamente,
+esta formula es de escasa utilidad para los calculos, pues requiere hallar los terminos
+de las segundas derivadas de $f$ que siempre se cancelaran. En su lugar es mas
+comun utilizar la formula de las coordenadas del corchete de Lie, que dice asi:
+
+Sean $X, Y$ campos vectoriales diferenciales en una variedad diferencial $M$ y
+sean $X = X^i \partial / \partial x^i$ y $Y = Y^i \partial / \partial x^j$ las
+expresiones de $X$ e $Y$ en terminos de unas coordenadas locales $(x^i)$ dadas
+en $M$. El corchete de Lie se puede escribir entonces como:
+\begin{equation*}
+[X, Y] = (X^i \dfrac{\partial Y^j}{\partial x^i} - \\
+Y^i \dfrac{\partial X^j}{\partial x^i}) \dfrac {\partial}{\partial x^j}
+\end{equation*}
+que de forma mas concisa se puede escribir como $[X, Y] = (XY^j - YX^j)
+\dfrac{\partial}{\partial x^j}$.
+
+Para todo $f, g \in C^{\infty}(M)$, $[fX, gY] = fg[X,Y] + (fXg)Y - (gYf)X$.
+
+Una de las aplicaciones mas importantes del corchete de Lie ocurre en el
+contexto de los grupos de Lie. Sea $G$ un grupo de Lie. $G$ actua suave y transitivamente sobre si misma por
+traslacion por la izquierda: $L_g(h) = gh$. Un campo vectorial $X$ en $G$ se
+dice que es invariante por la izquierda si es invariante bajo toda traslacion
+por la izquierda. Mas explicitamente, $d(L_g)_{g'}(X_{g'}) = X_{gg'}$.
+
+Dado que $(L_g)_{*}(aX + bY) = a(L_g)_{*}X + b(L_g)_{*}Y$, el conjunto de todos
+los campos vectoriales invariantes en $G$ forman un subespacio lineal en
+$\mathfrak{X}(G)$. Lo interesante de este resultado es que la propiedad de
+invarianza se conserva bajo la accion del corchete de Lie.
+
+\subsection{Algebra de Lie de un grupo de Lie}
+Una algebra de Lie (sobre $\R$) es un espacio vectorial real $\g$ dotado de
+una aplicacion llamada corchete de $\g \times \g$ a $\g$, normalmente
+denotada por $(X, Y) \rightarrow [X, Y]$, que satisface las siguientes
+propiedades:
+
+- Bilinealidad: Para todo $a, b \in \R$,
+\begin{equation*}
+[aX + bY, Z] = a[X, Z] + b[Y, Z]
+\end{equation*}
+\begin{equation*}
+[Z, aX + bY] = a[Z, X] + b[Z, Y]
+\end{equation*}
+
+- Antisimetria: $[X, Y] = -[Y, X]$
+
+- Identidad de Jacobi: $[X, [Y, Z]] + [Y, [Z,X]] + [Z, [X, Y]] = 0$
+
+Si $\g$ y $\h$ son algebras de Lie, una aplicacion lineal $A: \g \rightarrow \h$
+se llama homomorfismo de algebras de Lie si conserva corchetes: $A[X, Y] = [AX,
+AY]$. Si el homomorfismo de algebras de Lie es invertible se le llama
+isomorfismo de algebras de Lie.
+
+Un ejemplo de algebra de Lie es el espacio vectorial $M(n, \R)$ de $n
+\times n$ matrices reales junto con el corchete commutador $[A, B] = AB - BA$.
+Se trata de un algebra de Lie $n^2$-dimensional. Es facil comprobar las
+propiedades de bilinealidad, antisimetria y la identidad de Jacobi. Este algebra
+de Lie comunmente se denota por $\mathfrak{g}\mathfrak{l}(n, \R)$.
+
+De entre todas las algebras de Lie, en la teoria de variedades diferenciales destaca el
+algebra de Lie de un grupo de Lie. Esta se define como el algebra de Lie de
+todos los campos vectoriales diferenciales invariantes por la izquierda sobre un
+grupo de Lie $G$, que es una subalgebra de Lie de $\mathfrak{X}(G)$ y, por
+tanto, un algebra de Lie. Se denota por $Lie(G)$.
+
+De forma similar a como vemos el espacio tangente como un "modelo lineal" de una
+variedad diferencial cerca de un punto, el algebra de Lie de un grupo de Lie
+proporciona un "modelo lineal" de un grupo, que refleja muchas de las
+propiedades del grupo. Debido a que los grupos de Lie tienen mas estructura que
+las variedades diferenciales, es de esperar que sus modelos lineales tengan mas
+estructura que los espacios vectoriales ordinarios. Dado que un algebra de Lie
+de dimension finita es un objeto algebraico lineal, es en muchos aspectos mas
+facil de entender que el mismo grupo.
+
+Tomamos como ejemplo de un algebra de un algebra de Lie de un grupo de Lie el
+espacio euclideo $\R^n$: Si consideramos $\R^n$ como un
+grupo de Lie bajo la suma, la traslacion por la izquierda por un elemento $b \in
+\R^n$ viene dada por la aplicacion afin $L_b(x) = b + x$, cuya diferencial
+$d(L_b)$ se representa por la matriz identidad en las coordenadas estandares.
+Por tanto, el campo vectorial $X^i \partial / \partial x^i$ es invariante por la
+izquierda si y solo si sus coeficientes son constantes. Dado que el corchete de
+Lie de dos campos vectoriales de coeficientes constantes es cero, el algebra de
+Lie de $\R^n$ es abeliana e isomorfa a $\R^n$ por el corchete trivial. En
+resumen, $Lie(\R^n) \cong \R^n$. El hecho de que el algebra de $\R^n$, que es un
+grupo de Lie abeliano, sea un algebra de Lie abeliana no es un accidente: todo
+grupo de Lie abeliano tiene un algebra de Lie abeliana. El opuesto solo es
+cierto en caso de que el grupo sea conexo.
+
+% Analizamos ahora el algebra de Lie de grupo de Lie no abeliano mas importante,
+% el grupo general lineal:
+
+% La composicion de aplicaciones naturales $Lie(GL(n, \R)) \rightarrow T_{I_n}GL(n, \R)
+% \rightarrow \mathfrak{g}\mathfrak{l}(n, \R)$ determina un isomorfismo de
+% algebras de Lie entre $Lie(GL(n, \R))$ y el algebra de matrices
+% $\mathfrak{g}\mathfrak{l}(n, \R)$.
+
+\subsection{Algebra de Lie de un subgrupo de Lie}
+Si $G$ es un grupo de Lie y $H \subseteq G$ es un subgrupo de Lie, uno desearia
+que el algebra de Lie de $H$ fuese una subalgebra de Lie de $G$. Sin embargo,
+los elementos de $Lie(H)$ son campos vectoriales en $H$, no en $G$ y, por tanto,
+no son elementos de $Lie(G)$, esto es, no son campos vectoriales invariantes por
+la izquierda en $G$. Podemos salvar este obstaculo observando que cada elemento
+de $Lie(H)$ corresponde con un unico elemento de $Lie(G)$, determinado por su
+valor identidad y por la inyeccion de $Lie(H)$ en $Lie(H)$. Este isomorfismo se
+caracteriza por $\mathfrak{h}=\iota_*(Lie(H)) = { X \in Lie(G): X_e \in T_eH}$,
+donde $\iota_*$ denota el homomorfismo inducido de algebras de Lie.
+
+Esta identificacion entre una subalgebra de $G$ y el algebra de Lie de $H$ se
+hace visible tomando el algebra de de Lie del grupo ortogonal $O(n)$ ejemplo. El
+grupo ortogonal $O(n)$ es un subgrupo de Lie de $G(n, \R)$. $O(n)$ es igual al
+conjunto de nivel $\theta ^{-1}(I_n)$, donde $\theta : GL(n, \R) \rightarrow
+M(n, \R)$ es la aplicacion $\theta(A) = A^TA$. El espacio tangente $T_{I_n}O(n)$
+es igual al nucleo de la diferencial $d\theta_{I_n} : T_{I_n}GL(n, \R)
+\rightarrow T_{I_n}M(n, \R)$. Calculando la diferencial, vemos que
+$d\theta_{I_n}(B) = B^T + B$, luego $T_{I_n}O(n) = {B \in
+\gl(n, \R): B^T + B = 0}$, que es el conjunto de matrices
+antisimetricas de dimension $n \times n$. Denotamos este subespacio de $\gl(n,
+\R)$ por $\mathfrak{o}(n)$. Por el homomorfismo inducido de algebras de Lie
+expuesto en el parrafo anterior,
+$\mathfrak{o}(n)$ is una subalgebra de Lie de $\gl(n, \R)$ que es isomorfo a
+$Lie(O(n))$.
+
+\section{Derivada de Lie}
+La derivada de Lie nos permite calcular la velocidad de cambio de un campo
+vectorial a traves del flujo de otro cambio vectorial de una forma que no
+depende de las coordenadas elegidas.
+
+\subsection{Curvas integrales y flujos}
+Las curvas integrales son curvas suaves cuya velocidad en cada punto es igual al
+valor del campo vectorial en ese punto. Es decir, si $X$ es un campo vectorial
+en $M$, la integral de curva de $X$ es una curva diferencial $\gamma:J
+\rightarrow M$ tal que $\gamma'(t)=X_{\gamma(t)}$ para todo $t\in J$. Por
+ejemplo, si $X = x \dfrac{\partial}{\partial y} - y \dfrac{\partial}{\partial
+x}$ y $\gamma: \R \rightarrow \R^2$ es una curva suave tal que $\gamma(t) =
+(x(t), y(t))$, entonces la condicion $\gamma'(t)=X_{\gamma(t)}$ se traduce en la
+ecuacion $x'(t) \dfrac{\partial}{\partial x}|_{\gamma(t)} +
+y'(t)\dfrac{\partial}{\partial y}|_{\gamma(t)} = x(t) \dfrac{\partial}{\partial
+y}|_{\gamma(t)} - y(t)\dfrac{\partial}{\partial x}|_{\gamma(t)}$ de soluciones $x(t)=a\cos t
+- b\sin t$, $y(t)=a\sin t + b\cos t$. Luego toda curva de la
+forma $\gamma(t)=(a\cos t - b\sin t, a\sin t + b\cos t)$ es una curva integral de $X$.
+
+La coleccion de todas las curvas
+integrales de un campo vectorial dado en una variedad diferencial determina una
+familia de difeomorfismos de abiertos de una variedad diferencial que llamos
+flujo.
+
+\subsection{Derivada de Lie de un campo vectorial}
+
+La motivacion en la definicion de las derivadas de Lie radica en la
+dificultad de definir la derivada direccional de un campo vectorial en una
+variedad diferencial cualquiera.
+
+En el espacio euclideo, tiene sentido definir la derivada direccional de un
+campo vectorial en la direccion de un vector $v \in T_p\R^n$ como:
+\begin{equation*}
+	D_vW(p) = \dfrac{d}{dt} \mid _{t=0} W_{p + tv} = \lim_{x\to0} \dfrac{W_{p+tv} - W_p}{t}
+\end{equation*}
+Se puede ver con facilidad que $D_vW(p)$ puede ser evaluado aplicando $D_v$ a
+cada componente de $W$ por separado, esto es, $D_vW(p) = D_vW^i(p)
+\dfrac{\partial}{\partial x^i}|_p$. Sin embargo, esta definicion depende del
+hecho que $\R^n$ es un espacio vectorial, luego los vectores tangente $W_{p+tv}$
+y $W_p$ pueden ser vistos como elementos de $\R^n$. Sin embargo, este
+procedimiento no se puede extrapolar a una variedad diferencial arbitraria. Solo
+con reemplazar $p + tv$ por una curva $\gamma(t)$ que empieza en $p$ y cuya
+velocidad inicial es $v$ nos damos cuenta que $W_{\gamma(t)}$ y $W_{\gamma(0)}$
+son elementos de dos espacios tangente differentes ($T_{\gamma(t)}M$ y
+$T_{\gamma(0)M}$ respectivamente), luego la diferencia $W_{p+tv} - W_p$ no tiene
+sentido. No hay ninguna forma que independiente de las coordenadas elegidas que
+de sentido a la derivada direccional de $W$ en la direccion de un vector $v$.
+
+El problema se soluciona si reemplazamos el vector $v \in T_pM$ con un campo
+vectorial $V \in \mathfrak{X}(M)$, con lo que podemos usar el flujo de $V$ para
+convertir valores de $W$ de nuevo en $p$ y asi poder operar con los distintos
+elementos.
+
+Sea $M$ una variedad diferenciable, $V$ un campo vectorial suave en $M$ y
+$\theta$ el flujo de $V$. Para todo campo vectorial suave $W$ en $M$ se define
+un campo vectorial en $M$, denotado por $\mathfrak{L}_VW$ que llamamos la
+derivada de Lie de $W$ con respecto a $V$ y viene definida por:
+\begin{equation*}
+	(\mathfrak{L}_VW)_p = \dfrac{d}{dt}|_{t=0} d(\theta_{-t})_{\theta_{t}(p)}(W_{\theta_t(p)}) \\
+	= \lim_{t\to0}\dfrac{d(\theta_{-t})_{\theta_{t}(p)}(W_{\theta_t(p)}) - W_p}{t}
+\end{equation*}
+siempre que la derivada exista. Para valores de $t \neq 0$ el limite anterior
+tiene sentido: $\theta_t$ esta definida en un entorno de $p$ y $\theta_{-t}$ es
+la inversa de $\theta_t$, luego ambos
+$d(\theta_{-t})_{\theta_{t}(p)}(W_{\theta_t(p)})$ y $W_p$ son elementos de $T_pM$.
+
+Al igual que vimos con la primera formula introducida en el corchete de Lie,
+esta definicion de $\mathfrak{L}_VW)$ es de poca utilidad para el calculo, pues
+por lo general el flujo es un objeto matematico dificil de manipular en los
+calculos. Por suerte, el corchete de Lie nos proporciona una forma de hallar la
+derivada de Lie sin necesidad de hallar explicitamente el flujo.
+
+Para dos campos vectoriales suaves $V, W$ en una variedad diferenciable $M$, la
+derivada de Lie de $W$ con respecto de $V$ se puede escribir como
+$\mathfrak{L}_VW) = [V, W]$.
+
+Enunciamos a continuacion algunas de las propiedades de la derivada de Lie de un
+campo vectorial:
+
+\begin{enumerate}
+  \item $\mathfrak{L}_VW = - \mathfrak{L}_WV$
+  \item $\mathfrak{L}_V[W, X] = [\mathfrak{L}_VW, X] + [W, \mathfrak{L}_VX]$
+  \item $\mathfrak{L}_{[V, W]} = \mathfrak{L}_V \mathfrak{L}_W X -
+  \mathfrak{L}_W \mathfrak{L}_V X $
+  \item Si $g \in C^{\infty}(M)$, entonces $\mathfrak{L}_V(gW) = (Vg)W +
+  g\mathfrak{L}_VW$
+\end{enumerate}
+
+\subsection{Derivada de Lie de un campo tensiorial}
+El lenguaje de los tensores nos permite hablar de aplicaciones multilineales en
+el contexto de las variedades diferenciables. En su forma mas simple, los
+tensores son funciones multilineales reales de una o mas variables, como son el
+producto escalar y los determinantes.
+
+Los tensores puedes covariantes, contravariantes o mixtos. Un $k$-tensor
+covariante en un espacio vectoral real de dimension finita $V$
+es un elemento del producto tensorial $\underbrace{V^*\otimes...\otimes V^*}_{\text{b veces}}$, el cual
+podemos ver como una funcion real multilineal de $b$ elementos de $V$; esto es
+$\alpha : V \times ... \times V \rightarrow \R$. Denotamos el espacio vectorial
+de todos los $b$-tensores covariantes en $V$ por
+$T^{(0,b)}(V^*)=\underbrace{V^*\otimes...\otimes V^*}_{\text{b veces}}$. El
+determinante, entendido como una funcion de $n$ vectores, es un ejempo de un
+$n$-tensor covariante. De la misma forma, un tensor contravariante es aquel dado
+por $T^{(a,0)}(V) = \underbrace{V\otimes...\otimes V}_{\text{a veces}}$ y un
+tensor mixto viene definido por $T^{(a,b)}(V) = \underbrace{V\otimes...\otimes
+V}_{\text{a veces}} \underbrace{V^*\otimes...\otimes V^*}_{\text{b veces}}$. Los
+tensores mas importantes en la teoria de las variedades diferenciables son los
+tensores covariantes.
+
+
+Ahora, si en vez de un espacio vectorial real tomamos una variedad diferencial $M$,
+llamamos fibrado de $k$-tensores covariantes en $M$ a $T^kT^*M = \coprod_{p \in
+M}T^k(T_p^*M)$. Un campo tensorial suave es una seccion que es suave de $\pi :
+T^kM \rightarrow M$. Un campo tensorial simetrico en una variedad diferencial es
+simplemente un campo tensorial covariante cuyos valores en cada punto es un
+tensor simetrico. Los campos tensorials alternos se llaman formas diferenciales
+y los veremos mas adelante.
+
+Antes de introducir la derivada de Lie en el contexto de campos tensoriales es
+necesario definir el concepto de retroaccion o \emph{pullback}. Sea $F: M
+\rightarrow N$ una aplicacion diferenciable. Para cada punto $p \in M$ y cada
+$k$-tensor $\alpha \in T^k(T^*_{F(p)}N)$, definimos un tensor $dF^*_p(\alpha)
+\in T^k(T^*_pM)$ dado por $dF^*_p(\alpha)(v_1,...,v_k)=
+\alpha(dF_p(v_1),...,dF_p(v_k))$ para todo $v_1,...,v_k \in T_pM$. Si $A$ es un
+campo de $k$-tensores en $N$, entonces el \emph{pullback} de $A$ por $F$ es otro
+campo $k$-tensorial $F*A$ en $M$ y se denota por $(F^*A)_p = dF^*_p(A_{F(p)})$.
+Este campo tensorial actua sobre vectores $v_1,...,v_k \in T_pM$ de esta forma:
+$(F^*A)_p (v_1,...,v_k) = A_{F(p)} (dF_p(v_1),...,dF_p(v_k))$
+% Definir pullback
+
+La operacion de la derivada de Lie se puede extender a campos tensoriales de
+cualquier rango. Sea $M$ una variedad diferenciable, $V$ un campo vectorial
+suave en $M$ y $\theta$ su flujo. Para todo $p \in M$, si $t$ esta
+suficientemente cerca de $0$, entonces $\theta_t$ es un difeomorfismo de un
+entorno de $p$ a un entorno de $\theta_t(p)$, luego el \emph{pullback}
+$d(\theta_t)i_p^*$ convierte tensores en $\theta_t(p)$ en tensores en $p$ por la
+formula $d(\theta_t)^*_p(A_{\theta_t(p)})(v_1,..., v_k) =
+A_{\theta_t(p)}(d(\theta_t)_p(v_1),..., d(\theta_t)_p(v_k)$. Podemos ver que
+$d(\theta_t)^*_p(A_{\theta_t(p)})$ es el valor del \emph{pullback} del campo
+tensorial $\theta^*_tA$ en $p$.
+
+Estamos ya en disposicion de definir la derivada de Lie de un campo tensorial
+$A$ de tensores covariantes en $M$ con respecto a campo vectorial $V$ como:
+\begin{equation*}
+	(\mathfrak{L}_VA)_p = \dfrac{d}{dt}|_{t=0}(\theta^*_tA)_p = \\
+	\lim_{t\to0} \dfrac{d(\theta_t)^*_p(A_{\theta_t(p)}) - A_p}{t}
+\end{equation*}
+
+Esta expresion que derivamos pertenece a $T^k(T^*_pM)$ para todo $t$, luego
+$\mathfrak{L}_VA$ tiene sentido como elemento de  $T^k(T^*_pM)$.
+
+Destacamos sin demostrar varias propiedades de la derivada de Lie en campos de
+tensores covariantes dados $M$ una variedad diferencial suave, $V \in
+\mathfrak{X}(M)$, $f$ una funcion suave real (entendida como un campo
+$0$-tensorial) en $M$, y $A$ y $B$ campos de tensores covariantes en $M$:
+
+\begin{itemize}
+	\item $\mathfrak{L}_V f = V f$
+	\item $\mathfrak{L}_V(fA) = (\mathfrak{L}_Vf)A + f \mathfrak{L}_VA$
+	\item $\mathfrak{L}_V(A \otimes B) = (\mathfrak{L}_VA) \otimes B + A \otimes
+	\mathfrak{L}_VB$
+	\item Si $X_1, ..., X_k$ son campos vectoriales suaves y $A$ es un campo
+	$k$-tensorial tambien suave, entonces $\mathfrak{L}_V(A(X_1,...,X_k))=
+	(\mathfrak{L}_VA)(X_1,...,X_k) + A(\mathfrak{L}_VX_1,..., X_k) + ... +
+	A(X_1,..., \mathfrak{L}_VX_k)$
+\end{itemize}
+
+Una de las consecuencias de estas propiedades es que nos permiten expresar la
+derivada de Lie de cualquier campo tensorial covariante suave en terminos del
+corchete de Lie y derivadas direccionales de funciones, lo que nos vuelve a
+permitir calcular derivadas de Lie sin tener que primero calcular el flujo. La
+siguiente formula es de gran utilidad para los calculos:
+
+Si $V$ es un campo vectorial suave y $A$ es campo de k-tensores covariantes
+suave, entonces para cada conjunto de campos vectoriales $X_1, ..., X_k$,
+\begin{equation*}
+	(\mathfrak{L}_VA)(X_1,...,X_k) = V(A(X_1,..., X_k)) - A([V, X_1], X_2,..., X_k) - ... - \\
+	A(X_1,..., X_{k-1}, [V, X_k])
+\end{equation*}
+
+Hacemos uso de estas formulas para calcular la derivada de Lie
+en coordenadas locales $(x^i)$ de un campo de 2-tensores covariantes arbitrario.
+Observamos que $\mathfrak{L}_Vdx^i=d(\mathfrak{L}_Vx^i) = d(Vx^i) = dV^i$, luego
+\begin{equation*}
+\begin{split}
+	\mathfrak{L}_VA & = \mathfrak{L}_V(A_{ij}dx^i) \otimes dx^j \\
+	& = \mathfrak{L}_V(A_{ij})dx^i \otimes dx^j + A_{ij}(\mathfrak{L}_Vdx^i) \otimes dx^j + A_{ij}dx^i \otimes (\mathfrak{L}dx^j) \\
+	& = VA_{ij}dx^i \otimes dx^j + A_{ij} dV^i \otimes dx^j + A_{ij}dx^i \otimes dV^j \\
+	& = (V A_{ij} + A_{kj} \dfrac{\partial V^k}{\partial x^i} + A_{ik}\dfrac{\partial V^k}{\partial x^j}) dx^i \otimes dx^j
+\end{split}
+\end{equation*}
+
+Al igual que la derivada de Lie de un campo vectorial $W$ con respecto a $V$ es
+cero si y solo si $W$ es invariante bajo el flujo de $V$, un campo tensorial suave $A$
+en $M$ es invariante bajo un flujo $\theta$ en $M$ si para cada $t$,
+$d(\theta_t)^*_p(A_{\theta_t(p)}) = A_p$.
+
+\subsection{Derivada de Lie de una forma diferencial}
+Las formas diferenciales son campos tensoriales alternos en variedades
+diferenciales. Gran parte de la teoria de formas diferenciales puede verse como
+una generalizacion de la teoria de los campos de vectores covariantes, que son
+los ejemplos mas basicos de formas diferenciales. A los k-tensores covariantes
+alternos se les llama tambien formas exteriores o k-covectores. El espacio de
+todas los k-covectores se denota por $\Lambda^k(V^*)$.
+
+Si $M$ es una variedad diferenciable, recordemos que $T^kT^*M$ es el fibrado de
+k-tensores covariantes en $M$. El subconjunto de $T^kT^*M$ de los tensores
+alternos se denota por $\Lambda^k T^*M$:
+\begin{equation*}
+	\Lambda^k T^*M = \coprod_{p\in M} \Lambda^k(T^*_pM)
+\end{equation*}
+
+Una seccion de $\Lambda^kT^*M$ se llama k-forma diferencial si es un campo
+tensorial continuo cuyo valor en cada punto es un tensor alterno. El espacio
+vectorial de k-formas suaves se define como $\omega^k(M) = \Gamma (\Lambda ^k
+T^*M)$. El producto exterior de una k-forma con otra l-forma es una (k+l)-forma.
+El operador natural de las formas diferenciales se llama derivada exterior y es
+una generalizacion de la diferencial de una funcion.
+
+Las formulas utilizadas en la seccion anterior para los campos tensioriales
+tambien son aplicables a las formas diferenciales. Sin embargo, en el caso de
+las formas diferenciales, la derivada exterior nos proporciona una formula
+mas eficaz para calcular la derivada de Lie. Esto conlleva ademas otras
+consecuencias teoricas.
+
+La derivada de Lie satisface la regla del producto con respecto al producto
+exterior. Si $M$ es una variedad diferenciable, $V \in \mathfrak{X}(M)$ y
+$\omega, \eta$ son formas diferenciales en $\Omega^*(M)$, entonces
+$\mathfrak{L}_V(\omega \wedge \eta) = (\mathfrak{L}_V\omega) \wedge \eta +
+\omega \wedge (\mathfrak{L}_V\eta)$.
+
+La formula mas destacada para hallar la derivada de Lie de una forma diferencial
+es la llamada formula magica de Cartan:
+\begin{equation*}
+	\mathfrak{L}_V\omega = V \lrcorner (d\omega) + d(V \lrcorner \omega)
+\end{equation*}
+donde $\lrcorner$ es una aplicacion lineal $\lrcorner_v : \Lambda ^k (V^*)
+\rightarrow \Lambda^{[k-1]} (V^*)$ llamada multiplicacion interior y definida como
+$\lrcorner_v: \omega(w_1,...,w_{k-1}) = \omega(v, w1, ..., v_{k-1})$ para todo
+$v, w$ en un espacio vectorial de dimension finita $V$.
+
+\section{Cohomologia}
+
+Introducimos a continuacion algunos conceptos esenciales para entender la cohomologia de De
+Rham y la cohomologia del algebra de Lie.
+
+Sea $R$ un anillo conmutativo y sea $A^* = ... \to A^{p-1} \to^d A^p \to^d A^{p+1} \to
+...$ una sucesion de $R$-modulos y $R$-aplicaciones lineas. En la mayoria de
+casos, el anillo sera $\Z$, en cuyo caso estaremos tratando con grupos abelianos
+y homomorfismos, o $\R$, en cuyo caso tenemos espacios vectoriales y
+aplicaciones lineales. La terminologia de modulos es conveniente para combinar
+ambos casos. Esta sucesion se dice que es un \emph{complejo} si la composicion de dos
+aplicaciones sucesivas de $d$ es la aplicacion nula $d \cdot d = 0: A^p \to
+A^{p+2}$ para cada $p$. Como en el caso de los espacios vectoriales, tal
+secuencia de modulos se llama exacta si la imagen de cada $d$ es igual al nucleo
+de la siguiente. Claramente, toda sucesion exacta es un complejo, pero el
+reciproco no es siempre cierto.
+
+Llamamos p-esimo grupo cohomologico de una sucesion $A^*$ al cociente
+\begin{equation*}
+	H^p(A^*)=\dfrac{Ker(d:A^p \rightarrow A^{p+1})}{Im(d:A^{p-1}\rightarrow A^p)}
+\end{equation*}
+Intuitivamente, se puede ver pensar en este grupo cohomologico como una medida
+de la "falta de exactitud" en $A^p$. Un ejemplo de un complejo es el complejo de
+De Rham de una n-variedad diferenciable $M$:
+\begin{equation*}
+	0 \to \Omega^0(M)\to^d ... \to^d \Omega^p(M) \to^d \Omega^{p+1}(M) \to^d ... \to^d \Omega^n(M)\to 0
+\end{equation*}
+
+\subsection{Cohomologia de De Rham}
+
+La cohomologia de De Rham nace del estudio de las formas cerradas y exactas. Una
+forma es cerrada si su derivada $d\omega =0$; es exacta si se puede escribir
+como $\omega = d\eta$. Debido a que $d \cdot d = 0$, toda forma exacta es
+cerrada. Sin embargo, no toda forma cerrada es exacta. La propiedad de las formas
+cerradas que tambien son exactas esta ligada a la existencia de "agujeros" en la
+variedad diferenciable, que se hace medible gracias a un nuevo
+conjunto de invariantes de las variedades diferenciables llamado grupo de
+cohomologia de De Rham.
+
+Un ejemplo de una forma cerrada que no es exacta en $\R^2 \backslash \{0\}$ es la
+1-forma $\dfrac{xdy -ydx}{x^2+y^2}$. Sin embargo, esta forma es exacta en
+dominios mas reducidos como el semiplano $H=\{(x,y):x>0\}$. Este comportamiento
+es caracteristico de las formas cerradas: toda forma cerrada es siempre
+localmente exacta.
+
+Dado que $d:\Omega^p(M)\rightarrow \Omega^{p+1}(M)$ es lineal, su imagen y
+nucleo son subespacios lineales. Definimos al conjunto de p-formas cerradas en $M$
+como $Z^p(M)=Ker(d:\Omega^p(M \rightarrow \Omega^{p+1}(M))$ y al conjunto de p-formas
+exactas como $B^p(M)=Im(d:\Omega^{p-1}(M) \rightarrow \Omega^p(M))$, tambien en
+$M$.
+
+El hecho de que toda forma exacta es cerrada implica que $B^p(M)\subseteq
+Z^p(M)$. Por tanto, tiene sentido definir el grupo de cohomologia de De Rham de
+grado $p$ de $M$ como el espacio vectorial cociente
+$H_{dR}^p(M)=\dfrac{Z^p(M)}{B^p(M)}$. Un termino mas apropiado seria "espacio de
+cohomologia de De Rham", ya que estos grupos son, en realidad, espacios
+vectoriales.
+
+Para $p<0$ o $p> \dim M$ tenemos que $H_{dR}^p(M)=0$, pues $\Omega^p(M)=0$ en esos
+casos. Para $0\leq p \leq n$, la definicion implica que $H_{dR}^p(M)$ es igual a
+$0$ si y solo si toda p-forma cerrada en $M$ es exacta. Por ejemplo, en el caso
+anterior, el hecho de que exista una 1-forma cerrada en $\R^1\backslash\{0\}$
+que no es exacta significa que $H_{dR}^1(\R^2-\{0\})$. Por otra parte, el lema
+de Poincare para 1-formas implica que $H_{dR}^1(U)=0$ para todo subconjunto
+$U\subseteq\R^n$ estrellado.
+
+Los grupos de De Rham son invariantes por difeomorfismos. Para cada p-forma
+cerrada $\omega$ en $M$, denotamos $[\omega]$ a la clase de equivalencia de
+$\omega$ en $H_{dR}^p(M)$ llamada clase cohomologia de $\omega$. Si
+$[\omega]=[\omega']$, esto es, si $\omega$ y $\omega'$ difieren por una forma
+exacta, decimos que $\omega$ y $\omega'$ son cohomologicas. Dos variedades
+diferenciables difeomorficas tienen grupos de cohomologia de De Rham
+isomorficos.
+
+Ademas, los grupos cohomologicos de De Rham son invariantes homotopicos: dos
+variedades diferenciables homotopicamente equivalentes tienen grupos de De Rham
+isomorficos. Esto se debe a que aplicaciones diferenciables homotopicas inducen
+la misma aplicacion cohomologica. Una aplicacion cohomologica es una aplicacion lineal $F^*:H_{dR}^p(N)
+\rightarrow H_{dR}^p(M)$, con $M$ y $N$ variedades diferenciables y $F$ una
+aplicacion suave de $M$ a $N$, con las siguientes propiedades:
+\begin{enumerate}
+	\item Si $G : N \rightarrow P$ es otra aplicacion suave, entonces $(G \cdot
+	F)^*=F^* \cdot G^* : H_{dR}^p(P) \rightarrow H_{dR}^p(M)$
+	\item Si $Id$ es la aplicacion identidad en $M$, entonces $Id^*$ es la
+	aplicacion identidad en $H_{dR}^p(M)$.
+\end{enumerate}
+
+Dado que todo homeomorfismo es una equivalencia homotopica, los grupos
+cohomologicos de De Rham son invariantes topologicos: si dos variedades
+diferenciables son homeomorfas, entonces sus grupos de cohomologia de De Rham
+son isomorficos.
+
+\subsection{Cohomologia del algebra de Lie}
+
+La cohomologia del algebra de Lie nace del estudio de
+la topologia de los grupos de Lie y los espacios homogeneos relacionando metodos
+cohomologicos de De Rham a propiedades del algebra de Lie.
+
+Si $G$ es un grupo de Lie compacto simplemente conxexo, entonces esta
+determinado por su algebra de Lie, por lo que es posible calcular su cohomologia
+a partir del algebra de Lie. Su cohomologia es la cohomologia de De Rham del
+complejo de las formas diferenciales en $G$. Este complejo se puede reemplazar
+por un complejo de formas diferenciales invariantes por la izquierda. El espacio
+de las formas
+invariantes por la izquierda se pueden identificar con el algebra exterior del
+algebra de Lie, dotada de una diferencial apropiada.
+
+La construccion de esta diferencial en un algebra exterior tiene sentido para
+cualquier algebra de Lie, por lo que se usa para definir la cohomologia del
+algebra de Lie para todas las algebras de Lie.
+
+Si $G$ es un grupo de Lie simplemente conexo y no compacto, la cohomologia del
+algebra de Lie del algebra de Lie asociada $\mathfrak{g}$ no reproduce
+necesariamente la cohomologia de De Rham de $G$. De forma mas general, una
+construccion similar sirve para definir la cohomologia de un algebra de Lie con
+coeficientes en un modulo.
+
+Definimos entonces la cohomologia de un algebra de Lie $\mathfrak{g}$ con coeficientes en
+un $\mathfrak{g}$-modulo $M$ por la izquierda como
+$H^*_{\text{Lie}}(\mathfrak{g},M)=Ext^*_{U_{\mathfrak{g}}}(k, M)$ donde $k$ es
+el modulo trivial sobre el
+algebra universal evolvente $U_{\mathfrak{g}}$, esto es, el algebra mas general
+que contiene todas las representacion de un algebra de Lie.
+
+Por ejemplo, para toda suma directa de algebras de
+Lie simples o algebra de Lie semisimple $\mathfrak{g}$, existe una forma
+de Killing $\langle-,-\rangle$. La correspondiente cadena cerrada de tres elementos (3-cociclo) es $\mu =
+\langle-,[-,-]\rangle:CE(\mathfrak{g})$; es una funcion que manda tres elementos del
+algebra de Lie $x$, $y$, $z$ al numero $\mu (x,y,z)=\langle x,[y,z]\rangle $.
+
+Algunos resultados importantes de la cohomologia de las algebras de Lie incluyen
+los lemas de Whitehead, el teorema de Weil y el teorema de decomposicion de
+Levi.
+
+\end{document}
